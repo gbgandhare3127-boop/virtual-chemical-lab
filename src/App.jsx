@@ -52,6 +52,7 @@ function App() {
   const [concentration, setConcentration] = useState(0.1);
   const [indicator, setIndicator] = useState("Phenolphthalein");
   const [experimentStarted, setExperimentStarted] = useState(false);
+  const [titrationProgress, setTitrationProgress] = useState(0);
 
   const moles = ((volume * concentration) / 1000).toFixed(4);
 
@@ -446,14 +447,25 @@ function App() {
               </select>
 
               <button
-                className="primary-button full"
-                onClick={() =>
-                  setExperimentStarted(true)
-                }
-              >
-                Run Experiment 🧪
-              </button>
+  className="primary-button full"
+  onClick={() => {
+    setExperimentStarted(true);
+    setTitrationProgress(0);
 
+    let progress = 0;
+
+    const timer = setInterval(() => {
+      progress += 10;
+      setTitrationProgress(progress);
+
+      if (progress >= 100) {
+        clearInterval(timer);
+      }
+    }, 200);
+  }}
+>
+  Run Experiment
+</button>
             </div>
 
             {/* WORKSPACE */}
